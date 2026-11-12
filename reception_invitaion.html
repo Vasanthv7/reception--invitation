@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- WhatsApp / Open Graph Meta Tags -->
+    <meta property="og:title" content="You're Invited! | Honest Raj & Yamuna's Reception">
+    <meta property="og:description" content="Join us in celebrating our special day on Nov 25, 2026. Tap to open the invitation.">
+    <meta property="og:image" content="https://placehold.co/1200x630/1a1a1a/d4af37?text=Honest+Raj+%26+Yamuna+Reception">
+    <meta property="og:type" content="website">
+    
+    <title>Reception Invitation | Honest Raj & Yamuna</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Playfair Display (Serif/Elegant), Lato (Clean Sans), Great Vibes (Cursive/Wedding) -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config for Custom Colors/Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'gold': '#d4af37',
+                        'gold-light': '#fcf6ba',
+                        'gold-dark': '#aa771c',
+                        'maroon': '#8a1c31',
+                        'maroon-dark': '#5e0b1c',
+                        'beige': '#f4efe8',
+                        'beige-dark': '#eaddc9',
+                    },
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['"Lato"', 'sans-serif'],
+                        'cursive': ['"Great Vibes"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles */
+        body {
+            background-color: #f4efe8;
+            color: #8a1c31;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Gold Text Shine Animation */
+        .gold-shine {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 4s infinite linear;
+            background-size: 200% auto;
+        }
+
+        @keyframes shine {
+            0% { background-position: 200% center; }
+            100% { background-position: 0% center; }
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Intro Screen Animations */
+        #intro-screen {
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+        }
+        .intro-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.1);
+        }
+
+        /* Scratch Card Canvas */
+        .scratch-container {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(138, 28, 49, 0.15);
+            border: 2px solid #d4af37;
+            background-color: #eaddc9;
+        }
+        .scratch-content {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .scratch-content.revealed {
+            opacity: 1;
+        }
+        canvas {
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 2;
+            cursor: pointer;
+            touch-action: none; /* Prevent scroll while scratching */
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* Petal Pop Effect */
+        .petal {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            background-size: cover;
+            border-radius: 50% 0 50% 50%;
+            background-color: #ff9999;
+            box-shadow: 0 0 10px rgba(255, 153, 153, 0.5);
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg) scale(0); opacity: 1; }
+            20% { transform: translateY(10vh) rotate(45deg) scale(1); }
+            100% { transform: translateY(110vh) rotate(360deg) scale(0.5); opacity: 0; }
+        }
+
+        /* Continuous Floating Petals Background */
+        #floating-petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0; /* Behind main content */
+            overflow: hidden;
+        }
+        .bg-petal {
+            position: absolute;
+            background-size: cover;
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.45;
+            animation: drift linear infinite;
+        }
+        @keyframes drift {
+            0% { transform: translateY(-10vh) rotate(0deg) translateX(0); }
+            50% { transform: translateY(50vh) rotate(180deg) translateX(25px); }
+            100% { transform: translateY(110vh) rotate(360deg) translateX(-25px); }
+        }
+
+        /* Floating music button */
+        #music-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        #music-toggle:hover {
+            background: rgba(212, 175, 55, 0.4);
+            transform: scale(1.1);
+        }
+        .spin {
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Gallery Images Hover */
+        .gallery-img-container {
+            overflow: hidden;
+            border-radius: 16px;
+            background-color: rgba(234, 221, 201, 0.3); /* Soft background for transparent images */
+        }
+        .gallery-img-container img {
+            transition: transform 0.7s ease;
+        }
+        .gallery-img-container:hover img {
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-maroon-dark">
+
+    <!-- Background Floating Petals -->
+    <div id="floating-petals-container"></div>
+
+    <!-- Background Music -->
+    <!-- IMPORTANT HOSTING NOTE: 
+         When you host this website, ensure your audio file is uploaded to the 
+         EXACT SAME FOLDER as this index.html file. 
+    -->
+    <audio id="bg-audio" loop preload="auto">
+        <!-- User's shared audio track -->
+        <source src="Marriage-At-2AM-(Background-Score)-MassTamilan.dev.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Music Toggle Button -->
+    <button id="music-toggle" class="w-12 h-12 rounded-full flex items-center justify-center cursor-pointer shadow-lg hidden">
+        <svg id="music-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- Play Icon -->
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </button>
+
+    <!-- Intro / Cover Screen -->
+    <div id="intro-screen" class="fixed inset-0 z-50 bg-beige flex flex-col items-center justify-center p-6 text-center cursor-pointer min-h-screen">
+        <div class="absolute inset-0 bg-[url('https://placehold.co/1080x1920/f4efe8/8a1c31?text=Floral+Pattern')] bg-cover bg-center opacity-10 mix-blend-multiply"></div>
+        
+        <div class="relative z-10 flex flex-col items-center justify-center h-full max-w-md w-full border border-maroon/20 p-8 rounded-2xl bg-beige/80 backdrop-blur-sm shadow-xl">
+            <h4 class="font-sans tracking-widest text-maroon-dark text-sm uppercase mb-4">You are cordially invited</h4>
+            <h1 class="font-cursive text-6xl md:text-8xl text-maroon mb-6 drop-shadow-sm">Honest Raj <br><span class="text-4xl text-gold">&</span><br> Yamuna</h1>
+            
+            <div class="mt-12 animate-pulse flex flex-col items-center justify-center">
+                <div class="w-16 h-16 rounded-full border-2 border-gold flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(212,175,55,0.3)] bg-white/50">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
+                    </svg>
+                </div>
+                <p class="font-serif italic text-maroon-dark text-lg">Tap to open invitation</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden initially) -->
+    <main id="main-content" class="hidden">
+        
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden bg-beige">
+            <!-- Background Image (Subtle Background) -->
+            <div class="absolute inset-0 z-0 flex items-center justify-center">
+                <div class="absolute inset-0 bg-gradient-to-b from-beige/60 via-beige/80 to-beige"></div>
+            </div>
+
+            <div class="relative z-10 text-center reveal w-full max-w-4xl mx-auto mt-20 md:mt-10 mb-28">
+                <p class="font-sans text-sm tracking-[0.3em] uppercase text-maroon-dark mb-6">Together with their families</p>
+                <h1 class="font-cursive text-7xl md:text-9xl text-maroon drop-shadow-sm mb-4">Honest Raj</h1>
+                <p class="font-serif text-3xl text-gold italic my-2">&</p>
+                <h1 class="font-cursive text-7xl md:text-9xl text-maroon drop-shadow-sm mb-8">Yamuna</h1>
+                
+                <p class="font-serif text-lg md:text-2xl mt-8 max-w-2xl mx-auto leading-relaxed px-4 text-maroon-dark">
+                    "Two souls but with a single thought, two hearts that beat as one." <br>
+                    We invite you to share our joy as we celebrate our new life together.
+                </p>
+            </div>
+
+            <!-- Scroll Down Indicator -->
+            <div class="absolute bottom-10 z-10 flex flex-col items-center scroll-indicator">
+                <span class="font-sans text-xs tracking-widest text-maroon-dark/80 mb-2 uppercase">Scroll to explore</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-maroon-dark/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- Scratch to Reveal Date Section -->
+        <section class="py-24 bg-beige relative border-t border-b border-maroon/10">
+            <div class="absolute inset-0 bg-[url('https://placehold.co/100x100/8a1c31/8a1c31?text=Pattern')] opacity-[0.03]"></div>
+            
+            <div class="container mx-auto px-4 text-center relative z-10 reveal">
+                <h2 class="font-serif text-4xl md:text-5xl text-maroon mb-4">Save the Date</h2>
+                <p class="font-sans text-maroon-dark/80 mb-10 max-w-md mx-auto">
+                    Scratch the golden card below to reveal the date of our special day.
+                </p>
+
+                <!-- Scratch Card HTML -->
+                <div class="scratch-container" id="scratch-wrapper">
+                    <!-- Revealed Content (Underneath) -->
+                    <div class="scratch-content bg-gradient-to-br from-beige to-beige-dark" id="scratch-content">
+                        <h3 class="font-serif text-3xl font-bold text-maroon mb-1">Nov 25, 2026</h3>
+                        <p class="font-sans text-maroon-dark tracking-widest uppercase text-sm">Wednesday, 11:00 AM</p>
+                    </div>
+                    <!-- Canvas Overlay -->
+                    <canvas id="scratch-canvas" width="300" height="150"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Section -->
+        <section class="py-20 bg-beige-dark">
+            <div class="container mx-auto px-4 text-center reveal">
+                <h2 class="font-cursive text-5xl text-maroon mb-12">The Countdown Begins</h2>
+                
+                <div class="flex flex-wrap justify-center gap-4 md:gap-8 max-w-3xl mx-auto" id="countdown">
+                    <!-- Days -->
+                    <div class="flex flex-col items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-gold/30 bg-beige shadow-[0_0_15px_rgba(138,28,49,0.1)]">
+                        <span class="font-serif text-3xl md:text-4xl text-maroon font-bold" id="days">00</span>
+                        <span class="font-sans text-xs md:text-sm uppercase tracking-wider text-maroon-dark/70 mt-1">Days</span>
+                    </div>
+                    <!-- Hours -->
+                    <div class="flex flex-col items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-gold/30 bg-beige shadow-[0_0_15px_rgba(138,28,49,0.1)]">
+                        <span class="font-serif text-3xl md:text-4xl text-maroon font-bold" id="hours">00</span>
+                        <span class="font-sans text-xs md:text-sm uppercase tracking-wider text-maroon-dark/70 mt-1">Hours</span>
+                    </div>
+                    <!-- Minutes -->
+                    <div class="flex flex-col items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-gold/30 bg-beige shadow-[0_0_15px_rgba(138,28,49,0.1)]">
+                        <span class="font-serif text-3xl md:text-4xl text-maroon font-bold" id="minutes">00</span>
+                        <span class="font-sans text-xs md:text-sm uppercase tracking-wider text-maroon-dark/70 mt-1">Mins</span>
+                    </div>
+                    <!-- Seconds -->
+                    <div class="flex flex-col items-center justify-center w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-gold/30 bg-beige shadow-[0_0_15px_rgba(138,28,49,0.1)]">
+                        <span class="font-serif text-3xl md:text-4xl text-maroon font-bold" id="seconds">00</span>
+                        <span class="font-sans text-xs md:text-sm uppercase tracking-wider text-maroon-dark/70 mt-1">Secs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="py-24 bg-beige relative">
+            <div class="container mx-auto px-4 reveal">
+                <div class="text-center mb-12">
+                    <h2 class="font-serif text-4xl md:text-5xl text-maroon mb-4">Our Moments</h2>
+                    <div class="h-1 w-20 bg-gold mx-auto rounded"></div>
+                </div>
+
+                <div class="flex justify-center max-w-4xl mx-auto relative z-10">
+                    <div class="gallery-img-container shadow-2xl shadow-maroon/10 p-2 md:p-6 bg-gradient-to-t from-beige-dark/50 to-transparent flex items-center justify-center w-full">
+                        <div class="relative w-full max-w-2xl overflow-hidden rounded-xl">
+                            <!-- Image 1 -->
+                            <img src="Indian%20Wedding%20Couple%20Cutout.png" alt="Honest Raj & Yamuna 1" class="slide w-full h-auto object-contain transition-opacity duration-1000 opacity-100">
+                            <!-- Image 2 -->
+                            <img src="Couple_Photo_2.png" alt="Honest Raj & Yamuna 2" class="slide absolute top-0 left-0 w-full h-full object-contain transition-opacity duration-1000 opacity-0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Venue Section -->
+        <section class="py-24 bg-beige-dark relative border-t border-maroon/10">
+            <div class="container mx-auto px-4 reveal text-center max-w-3xl mx-auto">
+                <h2 class="font-cursive text-5xl text-maroon mb-8">When & Where</h2>
+                
+                <div class="mb-10">
+                    <h3 class="font-serif text-2xl text-maroon-dark mb-3">The Reception</h3>
+                    <p class="font-sans text-maroon-dark/80 text-lg">Wednesday, November 25, 2026</p>
+                    <p class="font-sans text-maroon-dark/80 text-lg">Starts at 11:00 AM</p>
+                </div>
+
+                <div class="mb-4 flex flex-col items-center">
+                    <h3 class="font-serif text-2xl text-maroon-dark mb-3">Venue</h3>
+                    <p class="font-sans text-maroon-dark/80 text-lg font-semibold mb-6">ST PETER'S PARISH HALL</p>
+                    
+                    <a href="https://maps.app.goo.gl/24S8Zn7e8GKng4tV9?g_st=atm" target="_blank" rel="noopener noreferrer" 
+                       class="inline-flex items-center gap-2 bg-maroon text-beige px-8 py-3 rounded-full hover:bg-maroon-dark transition-all duration-300 shadow-[0_5px_15px_rgba(138,28,49,0.2)] hover:shadow-[0_8px_25px_rgba(138,28,49,0.3)] transform hover:-translate-y-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gold" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-sans tracking-wide uppercase text-sm font-semibold">Open in Map</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-16 pb-12 bg-maroon text-center border-t border-maroon-dark relative overflow-hidden">
+            <h2 class="font-cursive text-4xl text-beige mb-4 relative z-10">Honest Raj & Yamuna</h2>
+            <p class="font-sans text-sm text-beige-dark uppercase tracking-widest relative z-10">We can't wait to celebrate with you</p>
+            
+            <div class="mt-12 pb-4 relative z-0">
+                 <span class="font-serif italic text-beige/40 text-sm tracking-widest">The Celebration Begins</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- 1. Intro Screen & Audio Handling ---
+            const introScreen = document.getElementById('intro-screen');
+            const mainContent = document.getElementById('main-content');
+            const bgAudio = document.getElementById('bg-audio');
+            const musicToggleBtn = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            let isMusicPlaying = false;
+
+            introScreen.addEventListener('click', () => {
+                // Prevent double clicks from firing multiple play requests
+                if (introScreen.classList.contains('intro-hidden')) return;
+
+                // Hide Intro
+                introScreen.classList.add('intro-hidden');
+                
+                // Show Main Content
+                setTimeout(() => {
+                    introScreen.style.display = 'none';
+                    mainContent.classList.remove('hidden');
+                    window.scrollTo(0, 0); // scroll to top
+                    musicToggleBtn.classList.remove('hidden'); // Show music button
+                }, 1000);
+
+                // Play Audio
+                playAudio();
+            });
+
+            function playAudio() {
+                bgAudio.volume = 0.5;
+                const playPromise = bgAudio.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        isMusicPlaying = true;
+                        updateMusicIcon();
+                    })
+                    .catch(error => {
+                        console.warn("Auto-play or playback prevented:", error);
+                        isMusicPlaying = false;
+                        updateMusicIcon();
+                    });
+                }
+            }
+
+            musicToggleBtn.addEventListener('click', () => {
+                if (isMusicPlaying) {
+                    bgAudio.pause();
+                    isMusicPlaying = false;
+                    updateMusicIcon();
+                } else {
+                    playAudio(); // Reuse the robust playAudio function
+                }
+            });
+
+            function updateMusicIcon() {
+                if (isMusicPlaying) {
+                    // Pause Icon
+                    musicIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+                    musicToggleBtn.classList.add('spin');
+                } else {
+                    // Play Icon
+                    musicIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+                    musicToggleBtn.classList.remove('spin');
+                }
+            }
+
+
+            // --- 2. Scroll Animation (Intersection Observer) ---
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+            
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+            
+            reveals.forEach(reveal => {
+                revealObserver.observe(reveal);
+            });
+
+
+            // --- 3. Countdown Timer ---
+            const targetDate = new Date('November 25, 2026 11:00:00').getTime();
+            
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    daysEl.innerText = "00";
+                    hoursEl.innerText = "00";
+                    minutesEl.innerText = "00";
+                    secondsEl.innerText = "00";
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                daysEl.innerText = days.toString().padStart(2, '0');
+                hoursEl.innerText = hours.toString().padStart(2, '0');
+                minutesEl.innerText = minutes.toString().padStart(2, '0');
+                secondsEl.innerText = seconds.toString().padStart(2, '0');
+            }
+            
+            const countdownInterval = setInterval(updateCountdown, 1000);
+            updateCountdown(); // Initial call
+
+
+            // --- 4. Scratch to Reveal Canvas ---
+            const canvas = document.getElementById('scratch-canvas');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            const scratchContent = document.getElementById('scratch-content');
+            let isDrawing = false;
+            let isRevealed = false;
+
+            // Setup Canvas Background (Golden gradient)
+            function initCanvas() {
+                const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+                gradient.addColorStop(0, '#d4af37'); // gold
+                gradient.addColorStop(0.5, '#aa771c'); // gold-dark
+                gradient.addColorStop(1, '#d4af37'); 
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Add some text overlay on the scratch card
+                ctx.font = '20px "Playfair Display", serif';
+                ctx.fillStyle = '#5e0b1c'; // maroon-dark
+                ctx.textAlign = 'center';
+                ctx.fillText('Scratch Here', canvas.width / 2, canvas.height / 2 + 7);
+                
+                // Set composite operation for erasing
+                ctx.globalCompositeOperation = 'destination-out';
+            }
+            initCanvas();
+
+            // Event Coordinates Helper
+            function getCoordinates(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            function scratch(e) {
+                if (!isDrawing || isRevealed) return;
+                e.preventDefault(); // Prevent scrolling while scratching
+                
+                const pos = getCoordinates(e);
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
+                ctx.fill();
+
+                checkReveal();
+            }
+
+            function checkReveal() {
+                // Check how many pixels are transparent
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                let transparentPixels = 0;
+
+                for (let i = 3; i < pixels.length; i += 4) {
+                    if (pixels[i] === 0) {
+                        transparentPixels++;
+                    }
+                }
+
+                const totalPixels = pixels.length / 4;
+                const percentRevealed = (transparentPixels / totalPixels) * 100;
+
+                if (percentRevealed > 45 && !isRevealed) {
+                    isRevealed = true;
+                    // Clear the entire canvas smoothly
+                    canvas.style.transition = 'opacity 0.5s ease';
+                    canvas.style.opacity = '0';
+                    scratchContent.classList.add('revealed');
+                    
+                    setTimeout(() => {
+                        canvas.style.display = 'none';
+                        triggerPetalPop();
+                    }, 500);
+                }
+            }
+
+            // Canvas Events
+            canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('mouseup', () => { isDrawing = false; });
+            canvas.addEventListener('mouseleave', () => { isDrawing = false; });
+
+            canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+            canvas.addEventListener('touchmove', scratch);
+            canvas.addEventListener('touchend', () => { isDrawing = false; });
+
+
+            // --- 5. Petal Pop Effect ---
+            function triggerPetalPop() {
+                const petalCount = 40;
+                const container = document.body;
+                const colors = ['#ff9999', '#ffccdd', '#d4af37', '#ffffff'];
+
+                for (let i = 0; i < petalCount; i++) {
+                    const petal = document.createElement('div');
+                    petal.classList.add('petal');
+                    
+                    // Randomize properties
+                    const size = Math.random() * 15 + 10; // 10px to 25px
+                    const left = Math.random() * 100; // 0% to 100%vw
+                    const duration = Math.random() * 3 + 2; // 2s to 5s
+                    const delay = Math.random() * 0.5; // 0s to 0.5s
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+
+                    petal.style.width = `${size}px`;
+                    petal.style.height = `${size}px`;
+                    petal.style.left = `${left}vw`;
+                    petal.style.backgroundColor = color;
+                    petal.style.animationDuration = `${duration}s`;
+                    petal.style.animationDelay = `${delay}s`;
+
+                    container.appendChild(petal);
+
+                    // Remove element after animation
+                    setTimeout(() => {
+                        petal.remove();
+                    }, (duration + delay) * 1000);
+                }
+            }
+
+            // --- 6. Continuous Floating Background Petals ---
+            function createFloatingPetals() {
+                const container = document.getElementById('floating-petals-container');
+                const colors = ['#8a1c31', '#5e0b1c', '#f4efe8', '#eaddc9']; // Maroon and cream shades
+                const maxPetals = 20; // Number of background petals
+
+                for (let i = 0; i < maxPetals; i++) {
+                    createSingleBgPetal(container, colors, true);
+                }
+                
+                // Add new petals periodically to maintain flow
+                setInterval(() => {
+                    if(container.childElementCount < maxPetals + 5) {
+                        createSingleBgPetal(container, colors, false);
+                    }
+                }, 2500);
+            }
+
+            function createSingleBgPetal(container, colors, initial) {
+                const petal = document.createElement('div');
+                petal.classList.add('bg-petal');
+                
+                const size = Math.random() * 15 + 10; // 10px to 25px
+                const left = Math.random() * 100; // 0% to 100vw
+                const duration = Math.random() * 12 + 10; // 10s to 22s (slow drifting)
+                const delay = initial ? Math.random() * -20 : 0; // Negative delay so they are on screen initially
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.left = `${left}vw`;
+                petal.style.backgroundColor = color;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `${delay}s`;
+
+                // Add slight shadow depending on color for depth
+                if (color === '#f4efe8' || color === '#eaddc9') {
+                     petal.style.boxShadow = '0 2px 5px rgba(138, 28, 49, 0.15)';
+                } else {
+                     petal.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+                }
+
+                container.appendChild(petal);
+
+                // Clean up after animation
+                setTimeout(() => {
+                    if (petal.parentNode === container) {
+                        petal.remove();
+                    }
+                }, (duration) * 1000);
+            }
+            
+            // Initialize continuous drifting petals
+            createFloatingPetals();
+        // --- 7. Image Slideshow ---
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length > 1) {
+                let currentSlide = 0;
+                setInterval(() => {
+                    // Hide current
+                    slides[currentSlide].classList.remove('opacity-100');
+                    slides[currentSlide].classList.add('opacity-0');
+                    
+                    // Move to next
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    
+                    // Show next
+                    slides[currentSlide].classList.remove('opacity-0');
+                    slides[currentSlide].classList.add('opacity-100');
+                }, 2000); // 2000ms = 2 seconds
+            }
+            
+        });
+    </script>
+</body>
+</html>
